@@ -44,7 +44,6 @@ const getTime = (t = 1) => {
             time: currentTime,
             desc: "Bookmark at " + getTime(currentTime),
         };
-        console.log(newBookmark);
 
         currentVideoBookmarks = fetchBookmarks();
 
