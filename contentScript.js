@@ -45,7 +45,15 @@ const getTime = (t = 1) => {
             desc: "Bookmark at " + getTime(currentTime),
         };
 
-        currentVideoBookmarks = fetchBookmarks();
+        // currentVideoBookmarks = await fetchBookmarks();
+        fetchBookmarks().then((data) => {
+            currentVideoBookmarks = data;
+        }).catch((err) => {
+            console.log(err);
+        }).finally(() => {
+            console.log("currentVideoBookmarks", currentVideoBookmarks);
+        })
+        console.log("currentVideoBookmarks", currentVideoBookmarks);
 
         chrome.storage.sync.set({
             [currentVideo]: JSON.stringify([...currentVideoBookmarks, newBookmark].sort((a, b) => a.time - b.time))
@@ -57,7 +65,7 @@ const getTime = (t = 1) => {
      * The button is appended to the YouTube player's left controls and listens for click events.
      * On click, it triggers the addNewBookmarkEventHandler to add a bookmark at the current video timestamp.
      */
-    const newVideoLoaded = async() => {
+    const newVideoLoaded = async () => {
         const bookmarkBtnExists = document.getElementsByClassName("bookmark-btn")[0];
         console.log("Checking if the bookmark button exists:", bookmarkBtnExists);
         currentVideoBookmarks = await fetchBookmarks();

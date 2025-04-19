@@ -1,4 +1,5 @@
 import { getCurrentTabUrl } from "./utils.js";
+
 // adding a new bookmark row to the popup
 const addNewBookmark = (bookmarksElement = [], bookmark) => {
 	const bookmarkTitleElement = document.createElement("div");
@@ -43,7 +44,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 	const urlParameters = new URLSearchParams(queryParameters);
 
 	const currentVideo = urlParameters.get("v");
-	if (activeTab.url.includes("youtube.com/watch")) {
+
+	if (activeTab.url.includes("youtube.com/watch") && currentVideo) {
 		chrome.storage.sync.get([currentVideo], (data) => {
 			const currentVideoBookmarks = data[currentVideo] ? JSON.parse(data[currentVideo]) : [];
 			viewBookmarks(currentVideoBookmarks);
